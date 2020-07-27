@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { StyledSearchParams } from './StyledSearchParams.js';
 import { ANIMALS } from '@frontendmasters/pet';
+import useDropdown from '../../hooks/useDropdown.js';
 
 function SearchParams() {
   const [location, setLocation] = useState('Seattle, WA');
-  const [animal, setAnimal] = useState(''); // dog by default
-  const [breed, setBreed] = useState('');
+  const [breeds, setBreeds] = useState([]);
+  const [animal, AnimalDropdown] = useDropdown('Animal', 'dog', ANIMALS);
+  const [breed, BreedDropdown] = useDropdown('Breed', '', breeds);
 
   console.log('DRD ANIMALS:::', ANIMALS);
 
@@ -16,16 +18,6 @@ function SearchParams() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('DRD', location);
-  };
-
-  const handleAnimalSelectChange = (event) => {
-    console.log('synthetic event:', event);
-    setAnimal(event.target.value);
-  };
-
-  const handleBreedSelectChange = (event) => {
-    console.log('synthetic event:', event);
-    setBreed(event.target.value);
   };
 
   return (
@@ -41,34 +33,8 @@ function SearchParams() {
             onBlur={handleInputChange}
           ></input>
         </label>
-        {/* Animal dropdown */}
-        <label htmlFor="animal">
-          Animal
-          <select
-            id="animal"
-            value={animal}
-            onChange={handleAnimalSelectChange}
-          >
-            <option value="all">All</option>
-            {ANIMALS.map((animal) => (
-              <option key={animal} value={animal}>
-                {animal}
-              </option>
-            ))}
-          </select>
-        </label>
-        {/* Breeds dropdown */}
-        <label htmlFor="breed">
-          Animal
-          <select id="breed" value={breed} onChange={handleBreedSelectChange}>
-            <option value="all">All</option>
-            {ANIMALS.map((breed) => (
-              <option key={breed} value={breed}>
-                {breed}
-              </option>
-            ))}
-          </select>
-        </label>
+        <AnimalDropdown />
+        <BreedDropdown />
         <button type="submit">Search Location</button>
       </form>
     </StyledSearchParams>
