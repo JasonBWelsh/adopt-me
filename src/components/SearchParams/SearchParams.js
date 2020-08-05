@@ -1,15 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyledSearchParams } from './StyledSearchParams.js';
-import { ANIMALS } from '@frontendmasters/pet';
+import pet, { ANIMALS } from '@frontendmasters/pet';
 import useDropdown from '../../hooks/useDropdown.js';
+import { API_KEY, API_SECRET } from '../../API.js';
+import axios from 'axios';
 
 function SearchParams() {
   const [location, setLocation] = useState('Seattle, WA');
   const [breeds, setBreeds] = useState([]);
   const [animal, AnimalDropdown] = useDropdown('Animal', 'dog', ANIMALS);
-  const [breed, BreedDropdown] = useDropdown('Breed', '', breeds);
+  const [breed, BreedDropdown, setBreed] = useDropdown('Breed', '', breeds);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [pets, setPets] = useState([]);
 
-  console.log('DRD ANIMALS:::', ANIMALS);
+  async function requestPets() {
+    const { animals } = await pet.animals({
+      location,
+      breed,
+      type: animal,
+    });
+
+    setPets(animals || []);
+  }
+
+  useEffect(() => {
+    setBreeds([]);
+    setBreed('');
+
+    pet.breeds(animal).then(({ breeds: apiBreeds }) => {
+      const breedStrings = apiBreeds.map(({ name }) => name);
+      setBreeds(breedStrings);
+    }, console.error);
+  }, [animal, setBreed, setBreeds]);
 
   const handleInputChange = (event) => {
     setLocation(event.target.value);
@@ -17,7 +40,7 @@ function SearchParams() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('DRD', location);
+    requestPets();
   };
 
   return (
