@@ -4,6 +4,7 @@ import pet, { ANIMALS } from '@frontendmasters/pet';
 import useDropdown from '../../hooks/useDropdown.js';
 import { API_KEY, API_SECRET } from '../../API.js';
 import axios from 'axios';
+import Results from '../Results/Results.js';
 
 function SearchParams() {
   const [location, setLocation] = useState('Seattle, WA');
@@ -60,6 +61,7 @@ function SearchParams() {
         <BreedDropdown />
         <button type="submit">Search Location</button>
       </form>
+      <Results pets={pets} />
     </StyledSearchParams>
   );
 }
