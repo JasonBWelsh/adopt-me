@@ -44,7 +44,12 @@ class Details extends Component {
   }
 
   render() {
-    return <>{this.state.loading ? <h1>Loading...</h1> : <div>Loaded</div>}</>;
+    return (
+      <>
+        {this.state.loading && <h1>Loading...</h1>}
+        {this.state.error && <h1>Something went wrong :(</h1>}
+      </>
+    );
   }
 }
 
