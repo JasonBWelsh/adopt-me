@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyledDetails } from './StyledDetails.js';
+// import { StyledDetails } from './StyledDetails.js';
 import pet from '@frontendmasters/pet';
+import Carousel from '../Carousel/Carousel.js';
 
 class Details extends Component {
   state = {
@@ -50,6 +51,7 @@ class Details extends Component {
           <button>Adopt {name}</button>
           <p>{description}</p>
         </div>
+        <Carousel media={this.state.media} />
       </div>
     );
   }

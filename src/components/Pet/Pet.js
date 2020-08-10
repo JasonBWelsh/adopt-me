@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledPet } from './StyledPet';
+// import { StyledPet } from './StyledPet';
 import { Link } from '@reach/router';
 
 function Pet({ name, animal, breed, id, media, location }) {
