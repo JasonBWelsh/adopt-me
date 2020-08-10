@@ -3,18 +3,15 @@ import { StyledDetails } from './StyledDetails.js';
 import pet from '@frontendmasters/pet';
 
 class Details extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      animal: '',
-      location: '',
-      description: '',
-      media: [],
-      loading: true,
-      error: false,
-    };
-  }
+  state = {
+    name: '',
+    animal: '',
+    location: '',
+    description: '',
+    media: [],
+    loading: true,
+    error: false,
+  };
 
   componentDidMount() {
     console.log('DRD test log `pet`', pet);
@@ -36,19 +33,24 @@ class Details extends Component {
         console.log('DRD :( ==>', error);
         this.setState({ ...this.state, error: true, loading: false });
       });
-
-    try {
-    } catch (error) {
-      console.log('DRD fuck!', error);
-    }
   }
 
   render() {
+    if (this.state.loading) {
+      return <h1>Loading...</h1>;
+    }
+
+    const { animal, breed, location, description, name } = this.state;
+
     return (
-      <>
-        {this.state.loading && <h1>Loading...</h1>}
-        {this.state.error && <h1>Something went wrong :(</h1>}
-      </>
+      <div className="details">
+        <div>
+          <h1>{name}</h1>
+          <h2>{`${animal} - ${breed} - ${location}`}</h2>
+          <button>Adopt {name}</button>
+          <p>{description}</p>
+        </div>
+      </div>
     );
   }
 }
