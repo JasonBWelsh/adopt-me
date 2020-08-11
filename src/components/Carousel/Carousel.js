@@ -9,9 +9,6 @@ function Carousel({ media }) {
     setPhotos(largePhotos);
   }, [media]);
 
-  console.log('??? photos', photos);
-  console.log('!!! media', media);
-
   const handleIndexClick = (event) => {
     setActive(+event.target.dataset.index);
   };
