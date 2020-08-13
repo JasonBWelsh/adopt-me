@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyledSearchParams } from './StyledSearchParams.js';
 import pet, { ANIMALS } from '@frontendmasters/pet';
 import useDropdown from '../../hooks/useDropdown.js';
 import { API_KEY, API_SECRET } from '../../API.js';
 import axios from 'axios';
 import Results from '../Results/Results.js';
+import ThemeContext from '../../context/ThemeContext.js';
 
 function SearchParams() {
   const [location, setLocation] = useState('Seattle, WA');
@@ -14,6 +15,7 @@ function SearchParams() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [pets, setPets] = useState([]);
+  const [theme, setTheme] = useContext(ThemeContext);
 
   async function requestPets() {
     const { animals } = await pet.animals({
@@ -59,7 +61,22 @@ function SearchParams() {
         </label>
         <AnimalDropdown />
         <BreedDropdown />
-        <button type="submit">Search Location</button>
+        <label htmlFor="theme">
+          Theme
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            onBlur={(e) => setTheme(e.target.value)}
+          >
+            <option value="peru">Peru</option>
+            <option value="darkblue">Dark Blue</option>
+            <option value="mediumorchid">Medium Orchid</option>
+            <option value="chartreuse">Chartreuse</option>
+          </select>
+        </label>
+        <button type="submit" style={{ background: theme }}>
+          Submit
+        </button>
       </form>
       <Results pets={pets} />
     </StyledSearchParams>
